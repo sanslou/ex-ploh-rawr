@@ -18,10 +18,20 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Clicked Play");
         SceneManager.LoadScene("SampleScene");
     }
-    public void ClickUser() {
-        Debug.Log("Clicked User");
+    public void ClickProgress() {
+        Debug.Log("Clicked Progress");
+    }
+
+    public void ClickQuit()
+    {
+        Debug.Log("Clicked Quit");
     }
     public void ClickSettings() {
-        Debug.Log("Clicked Setttings");
+        SceneManager.LoadScene("Settings");
+        Debug.Log("Clicked Settings");
+    }
+    public void ClickFlashcards()
+    {
+        Debug.Log("Clicked Flashcards");
     }
 }
