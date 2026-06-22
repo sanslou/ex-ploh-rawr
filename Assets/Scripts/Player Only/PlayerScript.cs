@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class PlayerInteract : MonoBehaviour
 {
     public static GameObject PLAYER;
+    public static string GENDER;
+
 
     private GameObject target;
     private NPC NPCscript;
@@ -36,6 +38,26 @@ public class PlayerInteract : MonoBehaviour
     void Start()
     {
         PlayerInteract.PLAYER = gameObject;
+        GENDER = PlayerPrefs.GetString("PlayerGender");
+        animator = transform.GetChild(1).GetComponent<Animator>();
+       
+
+        if (GENDER == "M")
+        {
+            Debug.Log("MALE!!");
+            animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/PlayerMale_Controller");
+        }
+        else if (GENDER == "F")
+        {
+            Debug.Log("FEMALE!!");
+            animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/PlayerFemale_Controller");
+        }
+        else {
+            Debug.Log("NONBINARY!!");
+            GENDER = "N";
+            animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/PlayerNonbinary_Controller");
+        }
+
 
         float x = PlayerPrefs.GetFloat("PlayerX");
         float y = PlayerPrefs.GetFloat("PlayerY");
