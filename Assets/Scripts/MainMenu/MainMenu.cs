@@ -43,6 +43,8 @@ public class MainMenu : MonoBehaviour
     public void ClickQuit()
     {
         Debug.Log("Clicked Quit");
+        Application.Quit();
+        
     }
     public void ClickSettings() {
         SceneManager.LoadScene("Settings");

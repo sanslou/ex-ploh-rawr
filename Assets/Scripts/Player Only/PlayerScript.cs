@@ -54,7 +54,6 @@ public class PlayerInteract : MonoBehaviour
         }
         else {
             Debug.Log("NONBINARY!!");
-            GENDER = "N";
             animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/PlayerNonbinary_Controller");
         }
 
