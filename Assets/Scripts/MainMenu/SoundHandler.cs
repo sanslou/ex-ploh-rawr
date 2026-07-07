@@ -18,5 +18,10 @@ public class SoundHandler : MonoBehaviour
     void Update()
     {
         audioSource.volume = PlayerPrefs.GetFloat("SFXVolume", 1.0f);
+        float lastValue = audioSource.volume;
+        if (audioSource.volume != lastValue)
+        {
+            Debug.Log("audioSource volume changed to " + audioSource.volume);
+        }
     }
 }

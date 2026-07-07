@@ -2,12 +2,17 @@ using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.UI;
 
 
 public class MainMenu : MonoBehaviour
 {
     private GameObject SoundHandler;
     private AudioSource audioSource;
+    private Canvas settings;
+    private Canvas main;
+    private SpriteRenderer genderSprite;
+    private SpriteRenderer shadowblob;
 
     void Start()
     {
@@ -23,10 +28,6 @@ public class MainMenu : MonoBehaviour
         else {
             animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/PlayerNonbinary_Controller");
         }
-
-        //sound handler for button sound
-        SoundHandler = GameObject.Find("SoundHandler");
-        audioSource = SoundHandler.GetComponent<AudioSource>();
     }
     
     void Update()
@@ -34,11 +35,23 @@ public class MainMenu : MonoBehaviour
         
     }
 
+    void Awake()
+    {
+        //sound
+        SoundHandler = GameObject.Find("SoundHandler");
+        audioSource = SoundHandler.GetComponent<AudioSource>();
+
+        //ui
+        settings = GameObject.Find("SettingsCanvas").GetComponent<Canvas>();
+        main = GameObject.Find("MainCanvas").GetComponent<Canvas>();
+        genderSprite = GameObject.Find("Gender Sprite").GetComponent<SpriteRenderer>();
+        shadowblob = GameObject.Find("Shadow Blob").GetComponent<SpriteRenderer>();
+    }
+
     
     public void ClickPlay() {
         Debug.Log("Clicked Play");
         audioSource.Play();
-        
         StartCoroutine(DramaticWait());
     }
     private IEnumerator DramaticWait() //coroutine
@@ -62,10 +75,23 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
         
     }
+
     public void ClickSettings() {
-        SceneManager.LoadScene("Settings");
+
+ 
+        settings.enabled = true;
+        initiateMainMenu(false);
+
         audioSource.Play();
         Debug.Log("Clicked Settings");
+    }
+
+    public void ClickBack() {
+        audioSource.Play();
+        settings.enabled = false;
+        initiateMainMenu(true);
+
+        Debug.Log("Returned to main menu");
     }
     public void ClickFlashcards()
     {
@@ -80,5 +106,17 @@ public class MainMenu : MonoBehaviour
         audioSource.Play();
         Debug.Log("Edit Player");
 
+    }
+
+    public void playButtonAudio()
+    {
+        audioSource.Play();
+    }
+
+    public void initiateMainMenu(bool a)
+    {
+        main.enabled = a;
+        genderSprite.enabled = a;
+        shadowblob.enabled = a;
     }
 }
