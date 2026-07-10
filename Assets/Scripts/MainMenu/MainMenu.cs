@@ -34,7 +34,7 @@ public class MainMenu : MonoBehaviour
 
     public void ClickPlay() {
         Debug.Log("Clicked Play");
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("InGame");
     }
     public void ClickProgress() {
         Debug.Log("Clicked Progress");

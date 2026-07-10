@@ -17,17 +17,14 @@ public class PlayerConfig : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Update() {}
 
     public void ClickBack() {
         SceneManager.LoadScene("MainMenu");
     }
 
     public void SelectMale() {
-        Debug.Log("Male Selected!");
+        //Debug.Log("Male Selected!");
         PlayerPrefs.SetString("PlayerGender", "M");
         PlayerPrefs.Save();
 
@@ -38,7 +35,7 @@ public class PlayerConfig : MonoBehaviour
 
     public void SelectFemale()
     {
-        Debug.Log("Female Selected!");
+        //Debug.Log("Female Selected!");
         PlayerPrefs.SetString("PlayerGender", "F");
         PlayerPrefs.Save();
 
@@ -49,7 +46,7 @@ public class PlayerConfig : MonoBehaviour
 
     public void SelectNonbinary()
     {
-        Debug.Log("Nonbinary Selected!");
+        //Debug.Log("Nonbinary Selected!");
         PlayerPrefs.SetString("PlayerGender", "N");
         PlayerPrefs.Save();
 
