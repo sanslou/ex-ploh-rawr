@@ -21,6 +21,8 @@ using UnityEngine;
  * 
  * 
  */
+
+// Abstract class, don't use the QA class!
 public class QA
 {
     public string QUESTION;
@@ -31,8 +33,9 @@ public class QA
         this.savedAnswer = answer;
         return (this.ANSWER == answer);
     }
-
 }
+
+/** Types of questions below... */
 
 public class MultipleChoices : QA {
     public string[] choices;
@@ -47,6 +50,7 @@ public class MultipleChoices : QA {
         return Answer(this.choices[choice]);
     }
 
+    // TODO test later [7/10/2026]
     public static string[] Shuffle(string[] here) {
         string[] res = new string[here.Length];
 
@@ -89,6 +93,7 @@ public class Trivia : QA {
 }
 
 public class Identify : QA {
+    // TODO string of arrays to be accepted as correct answers [7/10/2026]
     bool isCaseSensitive;
     public Identify(string question, string answer, bool isCaseSensitive) {
         base.QUESTION = question;

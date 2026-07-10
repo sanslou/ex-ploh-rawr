@@ -60,7 +60,7 @@ public class MainMenu : MonoBehaviour
         audioSource.clip = Resources.Load<AudioClip>("Sound/eyecatch");
         audioSource.Play();
         yield return new WaitForSeconds(5f);
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("InGame");
     }
 
     public void ClickProgress() {
