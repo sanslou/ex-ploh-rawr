@@ -22,7 +22,7 @@ public class PlayerInteract : MonoBehaviour
 
     // </Static>
 
-
+    
     // <Movement>
     public float SPEED = 5.0f;
     public bool isMirrored;
@@ -116,6 +116,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //Debug.Log("OnTriggerEnter: " + other.gameObject.name);
         if (hasTriggered) return;
         hasTriggered = true;
 
@@ -131,10 +132,17 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        //Debug.Log("OnTriggerExit: " + other.gameObject.name);
+
         target = null;
         buttonInteract.interactable = false;
 
-        buttonInteract.onClick.RemoveListener(NPCscript.Interact);
+        /* This if statement prevents interaction button from losing functionality due to a null 
+           reference exception whenever player loses object collision to a non-NPC object*/
+        if (NPCscript != null) 
+        {
+            buttonInteract.onClick.RemoveListener(NPCscript.Interact);
+        }
         NPCscript = null;
         hasTriggered = false;
 
@@ -144,8 +152,25 @@ public class PlayerInteract : MonoBehaviour
         var image = dialogue.GetComponent<Image>();
         image.enabled = false;
         content.enabled = false;
+
     }
 
+    public void ForceExit() {         
+        target = null;
+        buttonInteract.interactable = false;
+        if (NPCscript != null) 
+        {
+            buttonInteract.onClick.RemoveListener(NPCscript.Interact);
+        }
+        NPCscript = null;
+        hasTriggered = false;
+        var dialogue = GameObject.Find("Dialogue Text");
+        var content = dialogue.GetComponent<TMP_InputField>();
+        content.text = "";
+        var image = dialogue.GetComponent<Image>();
+        image.enabled = false;
+        content.enabled = false;
+    }
 
     public void ForceSpeak(string msg) {
         PlayerInteract.UI_DIALOGUE.text = msg;
