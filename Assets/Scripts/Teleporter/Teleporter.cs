@@ -26,8 +26,13 @@ public class Teleporter : NPC
 
     void Start()
     {
-        entrance = GameObject.Find("Entrance"); entCollider = entrance.GetComponent<Collider>();
-        exit = GameObject.Find("Exit"); exitCollider = exit.GetComponent<Collider>();
+        // GameObjects
+        entrance = GameObject.Find("Entrance"); 
+        exit = GameObject.Find("Exit");
+        // Its colliders
+        entCollider = entrance.GetComponent<Collider>();
+        exitCollider = exit.GetComponent<Collider>();
+
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<CharacterController>();
         //rigb = player.GetComponent<Rigidbody>();
@@ -70,8 +75,9 @@ public class Teleporter : NPC
 
         isTeleporting(false);
         Physics.SyncTransforms();
-        PlayerInteract playerInteract = player.GetComponent<PlayerInteract>();
-        playerInteract.ForceExit(); //FORCES ONTRIGGEREXIT TO RESET INTERACT BUTTON
+
+        PlayerInteract ps = player.GetComponent<PlayerInteract>();
+        ps.ForceExit(); //FORCES ONTRIGGEREXIT TO RESET INTERACT BUTTON
     }
 
     public void isTeleporting(bool state)

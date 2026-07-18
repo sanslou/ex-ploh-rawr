@@ -11,6 +11,7 @@ public class PlayerInteract : MonoBehaviour
 
     private GameObject target;
     private NPC NPCscript;
+    private RandomEncounters REScript;
     private bool hasTriggered = false;
     
     private Button buttonInteract;
@@ -113,6 +114,8 @@ public class PlayerInteract : MonoBehaviour
         else                                        animator.SetBool("isMoving", false);
     }
 
+    public bool inBattleground;
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -123,17 +126,24 @@ public class PlayerInteract : MonoBehaviour
         if (other.gameObject.CompareTag("NPC") && target == null)
         {
             target = other.gameObject;
-            //Debug.Log(target.name);
+            Debug.Log(target.name);
             NPCscript = target.GetComponent<NPC>();
             buttonInteract.onClick.AddListener(NPCscript.Interact);
             buttonInteract.interactable = true;
+        }
+
+        if (other.gameObject.CompareTag("Battleground") && target == null)
+        {
+            target = other.gameObject;
+            inBattleground = true;
+            Debug.Log("Player is in battleground!");
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
         //Debug.Log("OnTriggerExit: " + other.gameObject.name);
-
+        inBattleground = false;
         target = null;
         buttonInteract.interactable = false;
 
