@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class PlayerInteract : MonoBehaviour
 {
@@ -35,6 +36,10 @@ public class PlayerInteract : MonoBehaviour
 
     // </Movement>
 
+    // <Quest Logic>
+    
+
+    //</Quest Logic>
 
     void Start()
     {
@@ -71,7 +76,6 @@ public class PlayerInteract : MonoBehaviour
 
         PlayerInteract.UI_INTERACT = buttonInteract;
         PlayerInteract.UI_DIALOGUE = inputField;
-
 
         //GameObject.FindGameObjectWithTag("Canvas_Terminal").GetComponent<Canvas>().enabled = false;
         GameObject.Find("Terminal Multiple").GetComponent<Canvas>().enabled = false;
@@ -134,9 +138,15 @@ public class PlayerInteract : MonoBehaviour
 
         if (other.gameObject.CompareTag("Battleground") && target == null)
         {
+            // <RandomEncounters Logic>
             target = other.gameObject;
             inBattleground = true;
             Debug.Log("Player is in battleground!");
+            // </RandomEncounters Logic>
+
+            // <Quest Logic>
+            QuestEvents.goToEvent.Invoke(other.gameObject.name);
+            //</Quest Logic>
         }
     }
 
@@ -165,7 +175,9 @@ public class PlayerInteract : MonoBehaviour
 
     }
 
-    public void ForceExit() {         
+    
+    public void ForceExit()
+    {         // This function is called by the Teleporter script to force the player to exit an NPC interaction
         target = null;
         buttonInteract.interactable = false;
         if (NPCscript != null) 
@@ -181,7 +193,7 @@ public class PlayerInteract : MonoBehaviour
         image.enabled = false;
         content.enabled = false;
     }
-
+    
     public void ForceSpeak(string msg) {
         PlayerInteract.UI_DIALOGUE.text = msg;
     }

@@ -18,6 +18,12 @@ public class NPC : MonoBehaviour
     public Animator animator;
     private string currentMsg;
 
+    // <Quest logic>
+    [SerializeField]
+    private string npcID;
+    public string NPCID => npcID; // Helps Quest system identify which NPC was interacted with
+    // </Quest logic>
+
     public void Start()
     {
         /*
@@ -38,6 +44,14 @@ public class NPC : MonoBehaviour
     }
 
     public virtual void Interact() {}
+    /*
+    protected void NotifyQuestTalkTo()
+    {
+        Debug.Log($"NPC {npcID} interacted with. Notifying Quest system.");
+        QuestEvents.talkToEvent.Invoke(npcID); // sends a signal to the Quest system that this NPC with certain ID was interacted with
+    }
+    */
+
     public virtual void Speak(string msg) {
         var dialogue = GameObject.Find("Dialogue Text");
         var content = dialogue.GetComponent<TMP_InputField>();

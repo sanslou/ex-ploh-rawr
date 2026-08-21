@@ -9,6 +9,7 @@ public class RandomEncounters : MonoBehaviour
     private Collider bgCollider;
     private PlayerInteract piScript;
 
+
     private float distanceUntilNextAttempt;
     private float distanceTravelled;
     private float distanceMoved;
@@ -21,7 +22,6 @@ public class RandomEncounters : MonoBehaviour
     //DEBUG UI
     private TextMeshProUGUI totalDistanceText;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -37,6 +37,8 @@ public class RandomEncounters : MonoBehaviour
         Debug.Log("Distance until next attempt: " + distanceUntilNextAttempt);
         totalDistanceText.text = "Total Distance Travelled: " + distanceTravelled + " / " + distanceUntilNextAttempt;
         targetAmount = 10; //guaranteed encounter on first attempt
+
+        totalDistanceText.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -46,9 +48,14 @@ public class RandomEncounters : MonoBehaviour
     }
 
 
-
-
-
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            //Debug.Log(other + " has entered battleground!");
+            totalDistanceText.gameObject.SetActive(false);
+        }
+    } //When player stops touching battleground, hide the distance travelled text.
 
     private void OnTriggerStay(Collider other)
     {
@@ -59,8 +66,9 @@ public class RandomEncounters : MonoBehaviour
             { // Detects if player is moving, if yes, capture its position and accumulate distance travelled.
                 lastPosition = player.transform.position;
                 distanceTravelled += Vector3.Distance(transform.position, lastPosition);
-
+                
                 totalDistanceText.text = "Total Distance Travelled: " + distanceTravelled + " / " + distanceUntilNextAttempt; //DEBUG
+                totalDistanceText.gameObject.SetActive(true);
 
                 if (distanceTravelled >= distanceUntilNextAttempt)
                 { //If player reaches certain distance, roll a dice, then reset the values to prepare for another one.
@@ -68,6 +76,7 @@ public class RandomEncounters : MonoBehaviour
                     distanceUntilNextAttempt = UnityEngine.Random.Range(100f, 500f);
                     //Debug.Log("Distance until next attempt: " + distanceUntilNextAttempt);
                     encounterRoll = UnityEngine.Random.Range(1, 11); // Roll a dice from 1 to 10
+                    
 
                     if (targetAmount >= encounterRoll)
                     { 
@@ -81,22 +90,6 @@ public class RandomEncounters : MonoBehaviour
                     }
                 }
             }
-
-
-            /*
-            public void attemptEncounter()
-            {
-
-                /* TODO 
-                 * Only attempt encounter if player is in battleground, is moving, and has moved a certain distance since last encounter attempt
-                 */
-            /*if (piScript.inBattleground == true)
-            {
-                lastPositionX = player.transform.position.x;
-                lastPositionZ = player.transform.position.z;
-            }
-        }
-            */
         }
     }
 }
