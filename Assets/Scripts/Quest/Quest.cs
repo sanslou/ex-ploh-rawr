@@ -84,7 +84,8 @@ public class Quest : MonoBehaviour
     {
         qd.isCompleted = true;
         qd.isActive = false;
-        QuestEvents.talkToEvent.RemoveAllListeners(); // TODO: Need to find a better way to add and remove listeners without affecting other quests
+        Debug.Log("Quest completed!: " + qd.questName);
+        // TODO: Need to find a better way to add and remove listeners without affecting other quests
     }
 
     public string getQuestName()

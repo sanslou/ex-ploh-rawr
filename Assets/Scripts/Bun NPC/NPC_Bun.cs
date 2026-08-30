@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class NPC_Interaction : NPC
 {
@@ -23,11 +22,11 @@ public class NPC_Interaction : NPC
     }
 
     // This function is called when a player interacted this NPC
-    public override void Interact()
+    public override void Interact() // Changed it to protected override for Quest system to work properly
     {
         if (index >= dialogue.Length) index = 0;
         Speak(dialogue[index]);
         index++;
-        QuestEvents.talkToEvent.Invoke(npcName); // sends a signal to the Quest system that this NPC was interacted with
+        QuestEvents.talkToEvent.Invoke(npcName); // Invoke the talkToEvent with the NPC's name
     }
 }

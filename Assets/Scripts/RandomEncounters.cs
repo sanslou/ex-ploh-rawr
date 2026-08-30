@@ -32,9 +32,9 @@ public class RandomEncounters : MonoBehaviour
         lastPosition = player.transform.position;
         totalDistanceText = GameObject.Find("TotalDistance").GetComponent<TextMeshProUGUI>();
 
-        Debug.Log(bgCollider.gameObject);
+        //Debug.Log(bgCollider.gameObject);
         distanceUntilNextAttempt = UnityEngine.Random.Range(500f, 2000f);
-        Debug.Log("Distance until next attempt: " + distanceUntilNextAttempt);
+        //Debug.Log("Distance until next attempt: " + distanceUntilNextAttempt);
         totalDistanceText.text = "Total Distance Travelled: " + distanceTravelled + " / " + distanceUntilNextAttempt;
         targetAmount = 10; //guaranteed encounter on first attempt
 

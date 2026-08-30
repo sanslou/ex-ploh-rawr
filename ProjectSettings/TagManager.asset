@@ -12,6 +12,9 @@ TagManager:
   - Canvas_Terminal
   - Canvas_Player
   - Battleground
+  - Prop
+  - Tower
+  - Enemy_TD
   layers:
   - Default
   - TransparentFX

@@ -19,9 +19,6 @@ public class NPC : MonoBehaviour
     private string currentMsg;
 
     // <Quest logic>
-    [SerializeField]
-    private string npcID;
-    public string NPCID => npcID; // Helps Quest system identify which NPC was interacted with
     // </Quest logic>
 
     public void Start()
@@ -34,7 +31,6 @@ public class NPC : MonoBehaviour
 
     public void Update()
     {
-
         if (currentMsg != null && Input.GetMouseButton(0)) {
             StopAllCoroutines();
             PlayerInteract.UI_DIALOGUE.text = currentMsg;
@@ -43,14 +39,7 @@ public class NPC : MonoBehaviour
         }
     }
 
-    public virtual void Interact() {}
-    /*
-    protected void NotifyQuestTalkTo()
-    {
-        Debug.Log($"NPC {npcID} interacted with. Notifying Quest system.");
-        QuestEvents.talkToEvent.Invoke(npcID); // sends a signal to the Quest system that this NPC with certain ID was interacted with
-    }
-    */
+    public virtual void Interact() { }
 
     public virtual void Speak(string msg) {
         var dialogue = GameObject.Find("Dialogue Text");
@@ -86,5 +75,6 @@ public class NPC : MonoBehaviour
         }
         PlayerInteract.UI_INTERACT.enabled = true;
     }
+
 
 }
