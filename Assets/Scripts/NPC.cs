@@ -10,6 +10,7 @@ public class NPC : MonoBehaviour
 {
 
     // <!Inspector fields
+    [Header("Inspector fields")]
     public bool isEntity;
 
     //   Inspector fields/>
