@@ -9,21 +9,20 @@ public class Enemy_TD : NPC
     // Fetch References
     NavMeshAgent agent;
     public Transform target;
-    GameObject tower;
-
+    public GameObject tower;
     public string npcName = "EvilBun";
     public int enemyID = 0 ;// Helps slash() identify which NPC to attack
 
-    [SerializeField] private Transform playerChest;
-    [SerializeField] private Camera mainCamera;
-
-    private Coroutine tickCoroutine;
-
-    Tower towerScript;
-
-
     [Header("Enemy Properties")]
     public float health = 25;
+
+    [Header("References")]
+    [SerializeField] private Transform playerChest;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private Tower towerScript;
+    private Coroutine tickCoroutine;
+
+    
 
 
     new void Start()
@@ -194,7 +193,7 @@ public class Enemy_TD : NPC
 
             towerScript.towerHealth -= damage;
 
-            yield return new WaitForSeconds(towerScript.towerDamageTickRate); // Parameter is AKA enemy attack speed.
+            yield return new WaitForSeconds(towerScript.enemyDamageTickRate); // Parameter is AKA enemy attack speed.
         }
 
         tickCoroutine = null;
