@@ -15,6 +15,7 @@ TagManager:
   - Prop
   - Tower
   - Enemy_TD
+  - UI_Attack
   layers:
   - Default
   - TransparentFX

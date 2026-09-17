@@ -13,6 +13,8 @@ public class PlayerInteract : MonoBehaviour
     private GameObject target;
     private NPC NPCscript;
     private RandomEncounters REScript;
+    private Tower towerDefenseScript;
+    private Enemy_TD enemyScript;
     private bool hasTriggered = false;
     
     private Button buttonInteract;
@@ -73,12 +75,13 @@ public class PlayerInteract : MonoBehaviour
 
         buttonInteract = GameObject.FindGameObjectWithTag("UI_Interact").GetComponent<Button>();
         inputField = GameObject.FindGameObjectWithTag("UI_Dialogue").GetComponent<TMP_InputField>();
+        
 
         PlayerInteract.UI_INTERACT = buttonInteract;
         PlayerInteract.UI_DIALOGUE = inputField;
 
         //GameObject.FindGameObjectWithTag("Canvas_Terminal").GetComponent<Canvas>().enabled = false;
-        GameObject.Find("Terminal Multiple").GetComponent<Canvas>().enabled = false;
+        //GameObject.Find("Terminal Multiple").GetComponent<Canvas>().enabled = false;
         GameObject.Find("Terminal Identify").GetComponent<Canvas>().enabled = false;
         GameObject.Find("Terminal Trivia").GetComponent<Canvas>().enabled = false;
         GameObject.Find("Terminal Ready").GetComponent<Canvas>().enabled = false;

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7894164848116671553}
   m_Layer: 0
   m_Name: NPC Sprite
-  m_TagString: Enemy_TD
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -243,7 +243,7 @@ GameObject:
   - component: {fileID: 1956319887505438490}
   m_Layer: 0
   m_Name: NPC Character
-  m_TagString: NPC
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 5370311389117483048}
   m_Layer: 0
   m_Name: Evil Bun
-  m_TagString: NPC
+  m_TagString: Enemy_TD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -436,11 +436,14 @@ MonoBehaviour:
   npcSprite: {fileID: 0}
   animator: {fileID: 0}
   target: {fileID: 0}
+  tower: {fileID: 0}
   npcName: EvilBun
   enemyID: 0
+  health: 25
   playerChest: {fileID: 0}
   mainCamera: {fileID: 0}
-  health: 25
+  towerScript: {fileID: 0}
+  enemyScript: {fileID: 0}
 --- !u!195 &756752645058824016
 NavMeshAgent:
   m_ObjectHideFlags: 0

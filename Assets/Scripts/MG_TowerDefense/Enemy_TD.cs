@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using UnityEngine.Events;
+using UnityEngine.UI;
+
 
 public class Enemy_TD : NPC
 {
@@ -20,8 +23,11 @@ public class Enemy_TD : NPC
     [SerializeField] private Transform playerChest;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Tower towerScript;
-    private Coroutine tickCoroutine;
+    [SerializeField] private Enemy_TD enemyScript;
+    private Button buttonAttack;
 
+    private Coroutine tickCoroutine;
+    public UnityAction slashAction;
     
 
 
@@ -30,6 +36,15 @@ public class Enemy_TD : NPC
         // Fetch references
         target = GetComponent<Transform>();
         agent = GetComponent<NavMeshAgent>();
+        buttonAttack = GameObject.FindGameObjectWithTag("UI_Attack").GetComponent<Button>();
+
+        /*
+        slashAction = new UnityAction(slash);
+        slashAction = slash;
+        slashAction?.Invoke();
+       */
+
+        // WIP
 
         tower = GameObject.FindWithTag("Tower");
 
@@ -55,15 +70,6 @@ public class Enemy_TD : NPC
         base.Update();
     }
 
-
-    public override void Interact() // CHANGE: Make it AOE (Area of Effect) so that it can hit multiple enemies at once using OnTriggerEnter of a summoned prefab. This is a placeholder for now, as the health system is not yet implemented.
-    {
-        playerChest = GameObject.FindWithTag("Player").transform.Find("Player Sprite");
-        mainCamera = Camera.main;
-        slash();
-    }
-
-
     void OnTriggerStay(Collider other)
     {
         if (!other.CompareTag("Tower"))
@@ -74,7 +80,6 @@ public class Enemy_TD : NPC
             tickCoroutine = StartCoroutine(TickRoutine());
         }
     }
-
 
     void OnTriggerExit(Collider other)
     {
@@ -87,7 +92,6 @@ public class Enemy_TD : NPC
             }
         }
     }
-
 
     public void snapToNavMesh()
     {
@@ -107,7 +111,6 @@ public class Enemy_TD : NPC
             );
         }
     }
-
 
     public void moveToTarget(Transform t)
     {
@@ -130,57 +133,13 @@ public class Enemy_TD : NPC
         }
     }
 
-
     public void changeTarget(Transform t)
     {
         target = t; // Change target
     }
 
 
-    public void slash()  // Player slashes the NPC, summons VFX and SFX, and destroys the NPC
-    {
-        // TODO: Health system for enemies - FIN
-        // TODO: Health system for tower - FIN
-        // TODO: Health system for players.
-        // TODO: Knockback physics effect
-        // TODO: Interact button sometimes does not engage
-
-
-        GameObject vfx =
-            Resources.Load<GameObject>("Prefabs/VFX_DefaultSlash");
-
-        GameObject sfx =
-            Resources.Load<GameObject>("Prefabs/SFX_Hit");
-
-
-        // Spawn VFX and SFX
-        GameObject spawnedVFX = Instantiate(
-            vfx,
-            playerChest.position + Vector3.up * 1.0f,
-            Quaternion.identity
-        );
-
-
-        GameObject spawnedSFX = Instantiate(
-            sfx,
-            playerChest.position,
-            Quaternion.identity
-        );
-
-
-        // Make VFX face the camera
-        spawnedVFX.transform.forward =
-            mainCamera.transform.forward;
-
-
-        // Destroy after playing
-        Destroy(spawnedVFX, 0.12f);
-        Destroy(spawnedSFX, 2f);
-
-
-        // Temporary placeholder
-        Destroy(GameObject.Find("EvilBun_" + enemyID));
-    }
+   
 
 
     IEnumerator TickRoutine()

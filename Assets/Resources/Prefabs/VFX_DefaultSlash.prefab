@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 6302913095892157137}
   - component: {fileID: 1243639957872178084}
   - component: {fileID: 5465457729180334608}
+  - component: {fileID: 3735355866474743030}
+  - component: {fileID: 7581069284882492210}
   m_Layer: 0
   m_Name: VFX_DefaultSlash
   m_TagString: Untagged
@@ -212,3 +214,37 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!135 &3735355866474743030
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879279124773691639}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7581069284882492210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879279124773691639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec8872252dda954680f15eab5f143c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  hit: 0

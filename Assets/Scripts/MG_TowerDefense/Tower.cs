@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Linq;
+using UnityEngine.UI;
 
 public class Tower : MonoBehaviour
 {
@@ -39,15 +40,27 @@ public class Tower : MonoBehaviour
 
     // <Private>
     [Header("Serialized References")] // Debugging purposes.
-    [SerializeField] private Enemy_TD enemyScript;
     [SerializeField] private Transform spawnLocation;
     [SerializeField] private Transform[] spawnChildren;
     [SerializeField] private GameObject enemy;
+    [SerializeField] private Enemy_TD enemyScript;
+    private Button buttonAttack;
     // </Private>
+
+   
 
     void Start()
     {
         spawnLocation = GameObject.Find("enemySpawns").transform;
+        buttonAttack = GameObject.FindGameObjectWithTag("UI_Attack").GetComponent<Button>();
+
+        if (isOngoing)
+        {
+            buttonAttack.interactable = true;
+            Debug.Log("Tower Defense minigame is ongoing. Attack button enabled.");
+        }
+        
+
         foreach (Transform child in spawnLocation) // Get all spawn locations
         {
             spawnChildren = spawnLocation.GetComponentsInChildren<Transform>().Where(t => t != spawnLocation).ToArray(); 
