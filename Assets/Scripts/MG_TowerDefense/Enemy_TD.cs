@@ -24,11 +24,12 @@ public class Enemy_TD : NPC
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Tower towerScript;
     [SerializeField] private Enemy_TD enemyScript;
-    private Button buttonAttack;
 
+    private Button buttonAttack;
+    private Rigidbody rb;
     private Coroutine tickCoroutine;
     public UnityAction slashAction;
-    
+
 
 
     new void Start()
@@ -37,6 +38,9 @@ public class Enemy_TD : NPC
         target = GetComponent<Transform>();
         agent = GetComponent<NavMeshAgent>();
         buttonAttack = GameObject.FindGameObjectWithTag("UI_Attack").GetComponent<Button>();
+        rb = GetComponent<Rigidbody>();
+        towerScript = GameObject.FindWithTag("Tower").GetComponent<Tower>();
+        tower = GameObject.FindWithTag("Tower");
 
         /*
         slashAction = new UnityAction(slash);
@@ -45,9 +49,6 @@ public class Enemy_TD : NPC
        */
 
         // WIP
-
-        tower = GameObject.FindWithTag("Tower");
-
         if (tower != null)
         {
             target = tower.transform;
@@ -63,7 +64,6 @@ public class Enemy_TD : NPC
         snapToNavMesh();            // 2. Snap the enemy to the NavMesh after it has been spawned
         moveToTarget(target);       // 3. Move the enemy to the target after it has been identified and snapped to the NavMesh
     }
-
 
     new void Update()
     {
@@ -112,7 +112,7 @@ public class Enemy_TD : NPC
         }
     }
 
-    public void moveToTarget(Transform t)
+    public void moveToTarget(Transform t) // Tells AI where to move
     {
         if (target != null && agent.isOnNavMesh)
         {
@@ -138,8 +138,23 @@ public class Enemy_TD : NPC
         target = t; // Change target
     }
 
+    public void takeDamage()
+    {
+        health -= (int)(towerScript.enemyDamage); // Two hits
+        //Debug.Log($"{gameObject.name} took damage! {health}-hp remaining.");
+        if (health <= 0)
+        {
+            Debug.Log($"{gameObject.name} has been defeated!");
+            Destroy(gameObject);
+        }
 
-   
+        //TODO: Knockback effect when taking damage (OPT)
+        //TODO: Critical chance shakes the screen and deals more damage  (OPT)
+        //TODO: Add nametag to enemy prefab and change it based on answer
+    }
+
+
+
 
 
     IEnumerator TickRoutine()

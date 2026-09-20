@@ -11,7 +11,7 @@ public class Tower : MonoBehaviour
     public float towerHealth = 100;
     
     [Tooltip("Number of seconds until next enemy spawns")]
-    public float enemySpawnRate = 10.0f;
+    public float enemySpawnRate = 20.0f;
 
     [Tooltip("Number of enemies to summon per wave")]
     public int enemiesPerWave = 4;
@@ -22,14 +22,11 @@ public class Tower : MonoBehaviour
     //
     [Header("Individual Enemy Properties")]
     [Tooltip("A singular enemy's tower damage")]
-    public float enemyDamage = 2.0f;
-
+    public float enemyDamage = 13.0f;
     [Tooltip("A singular enemy's tower damage multiplier whenever a critical chance is a success")]
     public float enemyDamageCritMultiplier = 2.0f;
-
     [Tooltip("Chance to crit (out of 100).")]
     public float enemyDamageCritChance = 10f;
-
     [Tooltip("Enemy's attack speed (per second).")]
     public float enemyDamageTickRate = 2.0f;
 
@@ -46,7 +43,6 @@ public class Tower : MonoBehaviour
     [SerializeField] private Enemy_TD enemyScript;
     private Button buttonAttack;
     // </Private>
-
    
 
     void Start()

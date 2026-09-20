@@ -38,7 +38,9 @@ public class AttackHandler : MonoBehaviour
         // TODO: Health system for tower - FIN
         // TODO: Health system for players.
         // TODO: Knockback physics effect
-        // TODO: Interact button sometimes does not engage
+        // TODO: Interact button sometimes does not engage - FIN
+        // TODO: Add a cooldown to attack button.
+        // TODO: Add a SFX hit when player slashes enemy VS. slashing the air.
 
         //Debug.Log($"Player slashed {gameObject.name} (ID: {enemyID})!");
         GameObject vfx =
