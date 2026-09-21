@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Nametags : MonoBehaviour
+public class NametagManager : MonoBehaviour
 {
     [Header("References")]
     // The nametag of the four evil bun prefabs (other) references
@@ -11,7 +11,7 @@ public class Nametags : MonoBehaviour
     NametagsData ntd;
 
     // Void start() defines them
-    void start()
+    void Start()
     {
         ntd = Resources.Load<NametagsData>("MG_TowerDefense/QnAs");
         foreach (NametagsData data in Resources.LoadAll<NametagsData>("MG_TowerDefense/QnAs"))

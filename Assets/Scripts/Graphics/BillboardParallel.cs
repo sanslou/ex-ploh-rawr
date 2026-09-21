@@ -12,6 +12,7 @@ public class BillboardParallel : MonoBehaviour
 
     void Start()
     {
+        
         if (Camera.main != null)
         {
             camTransform = Camera.main.transform;
@@ -21,12 +22,6 @@ public class BillboardParallel : MonoBehaviour
             Debug.LogError("No main camera found. (Have you tagged the main camera?)");
         }
 
-        if (flipped)
-        {
-            Vector3 scale = transform.localScale;
-            scale.x *= -1; // Mirror/flip the element horizontally
-            transform.localScale = scale;
-        }
     }
 
     void LateUpdate()
@@ -42,6 +37,12 @@ public class BillboardParallel : MonoBehaviour
             {
                 transform.LookAt(targetPosition); // Tilts the sprite to match the camera's angle
             }
+        }
+        if (flipped) // I put this here so it can be configured during runtime using the inspector
+        {
+            Vector3 scale = transform.localScale;
+            scale.x *= -1; // Mirror/flip the element horizontally
+            transform.localScale = scale;
         }
         else
         {
