@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efe58e5b5d9f9f742b7751ab549c56f7, type: 3}
-  m_Name: 1
-  m_EditorClassIdentifier: Assembly-CSharp::Nametags
+  m_Script: {fileID: 11500000, guid: 64b6ba7704f02384bb13dd4b383e4853, type: 3}
+  m_Name: Alphabets
+  m_EditorClassIdentifier: Assembly-CSharp::NametagsData
   question: The English Alphabet
   correctAnswers:
   - A
@@ -21,13 +21,7 @@ MonoBehaviour:
   - E
   - F
   - G
-  - H
   wrongAnswers:
-  - 420
-  - 67
-  - 21
+  - 1
+  - '@'
   - :(
-  - '>:D'
-  - "\u30C9"
-  - "\u30F2\u30AA\u30AA\u30AA\u30AA\u30AA\u30AA"
-  - '&'

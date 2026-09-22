@@ -6,13 +6,16 @@ public class BillboardParallel : MonoBehaviour
     private Transform camTransform;
 
     [Header("Settings")]
-    [SerializeField] private bool lockElementRotation = false;
-    [SerializeField] private bool tiltToCamera = false;
-    [SerializeField] private bool flipped = false;
+    [SerializeField] private bool lockElementRotation;
+    [SerializeField] private bool tiltToCamera;
+    [SerializeField] private bool flipped;
 
     void Start()
     {
-        
+        lockElementRotation = false;
+        tiltToCamera = false;
+        flipped = false; // Declare default values in start() to stop the element from flipping left and right (seizure) whenever a value is overridden by the hierarchy's serializefield feature.
+
         if (Camera.main != null)
         {
             camTransform = Camera.main.transform;

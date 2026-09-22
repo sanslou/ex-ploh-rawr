@@ -14,16 +14,18 @@ public class Enemy_TD : NPC
     public Transform target;
     public GameObject tower;
     public string npcName = "EvilBun";
-    public int enemyID = 0 ;// Helps slash() identify which NPC to attack
+    public int enemyID = 0 ;// Helps slash() identify which NPC     to attack
 
     [Header("Enemy Properties")]
     public float health = 25;
+    public bool isEvil;
 
     [Header("References")]
     [SerializeField] private Transform playerChest;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Tower towerScript;
     [SerializeField] private Enemy_TD enemyScript;
+    [SerializeField] private float totalDamageDone;
 
     private Button buttonAttack;
     private Rigidbody rb;
@@ -32,7 +34,7 @@ public class Enemy_TD : NPC
 
 
 
-    new void Start()
+    void Start()
     {
         // Fetch references
         target = GetComponent<Transform>();
@@ -65,7 +67,7 @@ public class Enemy_TD : NPC
         moveToTarget(target);       // 3. Move the enemy to the target after it has been identified and snapped to the NavMesh
     }
 
-    new void Update()
+    void Update()
     {
         base.Update();
     }
@@ -138,34 +140,40 @@ public class Enemy_TD : NPC
         target = t; // Change target
     }
 
-    public void takeDamage()
+    public void takeDamage() // Receive damage for this individual NPC. NOT Tower.
     {
-        health -= (int)(towerScript.enemyDamage); // Two hits
-        //Debug.Log($"{gameObject.name} took damage! {health}-hp remaining.");
+        health -= towerScript.playerDamage; // One hit before death
+        Debug.Log($"{gameObject.name} took damage! {health}-hp remaining.");
         if (health <= 0)
         {
             Debug.Log($"{gameObject.name} has been defeated!");
             Destroy(gameObject);
         }
-
         //TODO: Knockback effect when taking damage (OPT)
         //TODO: Critical chance shakes the screen and deals more damage  (OPT)
         //TODO: Add nametag to enemy prefab and change it based on answer
+
+        if (!isEvil)
+        {
+            Debug.LogWarning("You've hit an ALLY! OUCH!");
+        }
     }
 
 
 
 
 
-    IEnumerator TickRoutine()
+    IEnumerator TickRoutine() 
     {
-        while (towerScript != null && towerScript.isOngoing)
+        while (towerScript != null && towerScript.isOngoing) // Damage handler AGAINST tower
         {
             float damage = towerScript.takeDamage();
 
-            Debug.Log($"Damage! {damage}-hp");
+            //Debug.Log($"Damage! {damage}-hp");
 
             towerScript.towerHealth -= damage;
+            totalDamageDone += damage;
+            towerScript.updateHpBar();
 
             yield return new WaitForSeconds(towerScript.enemyDamageTickRate); // Parameter is AKA enemy attack speed.
         }

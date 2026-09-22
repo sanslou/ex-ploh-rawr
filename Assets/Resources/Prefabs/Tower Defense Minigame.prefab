@@ -585,6 +585,7 @@ GameObject:
   - component: {fileID: 3728647894432430819}
   - component: {fileID: 6065866045001896586}
   - component: {fileID: 5553244078423268715}
+  - component: {fileID: 3048817218269888069}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Tower
@@ -601,7 +602,7 @@ Transform:
   m_GameObject: {fileID: 5995127399077426752}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.08237004, y: -0.73055, z: 0.5526676}
+  m_LocalPosition: {x: -0.08237004, y: -0.25, z: 0.5526676}
   m_LocalScale: {x: 1.4759665, y: 1.9800911, z: 1.1053321}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -722,16 +723,31 @@ MonoBehaviour:
   enemySpawnRate: 10
   enemiesPerWave: 4
   numberOfWaves: 3
-  enemyDamage: 2
+  enemyDamage: 13
   enemyDamageCritMultiplier: 2
   enemyDamageCritChance: 10
   enemyDamageTickRate: 2
   nextEnemyID: 0
   isOngoing: 1
-  enemyScript: {fileID: 0}
   spawnLocation: {fileID: 0}
   spawnChildren: []
   enemy: {fileID: 0}
+  enemyScript: {fileID: 0}
+  nametagScript: {fileID: 0}
+--- !u!114 &3048817218269888069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5995127399077426752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efe58e5b5d9f9f742b7751ab549c56f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NametagManager
+  nametags: []
+  winningSO: {fileID: 0}
 --- !u!1 &6519966790204480940
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,6 +819,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6335348411156317947}
+  - component: {fileID: 2256065394821259016}
+  - component: {fileID: 7905754175711673873}
   m_Layer: 0
   m_Name: Tower Defense Minigame
   m_TagString: Untagged
@@ -828,6 +846,45 @@ Transform:
   - {fileID: 4977348852958914434}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2256065394821259016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8651656548848756436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 987fc01cf20b3bf4b882129fb0c929be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy_TD
+  isEntity: 0
+  npcSprite: {fileID: 0}
+  animator: {fileID: 0}
+  target: {fileID: 0}
+  tower: {fileID: 0}
+  npcName: EvilBun
+  enemyID: 0
+  health: 25
+  isEvil: 0
+  playerChest: {fileID: 0}
+  mainCamera: {fileID: 0}
+  towerScript: {fileID: 0}
+  enemyScript: {fileID: 0}
+--- !u!114 &7905754175711673873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8651656548848756436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7ac21c5c7a5d143a6c0d131f13a326, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackHandler
+  playerChest: {fileID: 0}
+  mainCamera: {fileID: 0}
 --- !u!1 &8734487575147581375
 GameObject:
   m_ObjectHideFlags: 0

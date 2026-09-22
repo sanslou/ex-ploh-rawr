@@ -16,21 +16,18 @@ public class AttackHandler : MonoBehaviour
     void Start()
     {
         buttonAttack = GameObject.FindGameObjectWithTag("UI_Attack").GetComponent<Button>();
+        towerScript = FindObjectOfType<Tower>();
     }
 
-    
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy_TD") && towerScript.isOngoing)
-        {
-            enemyScript = other.GetComponent<Enemy_TD>();
-            buttonAttack.interactable = true;
-            buttonAttack.onClick.AddListener(slash);
-            Debug.Log("ONTRIGGERENTER: Tower Defense minigame is ongoing. Attack button enabled.");
 
-        }
+    void OnTriggerStay(Collider other) { 
+        if (other.CompareTag("Enemy_TD") && towerScript.isOngoing) {   // Why is it OnTriggerEnter() and not put it in Start()? This keeps the slash system from multiplying its attack and keep only one.
+            enemyScript = other.GetComponent<Enemy_TD>(); 
+            buttonAttack.interactable = true; 
+            buttonAttack.onClick.AddListener(slash); 
+            Debug.Log("ONTRIGGERENTER: Tower Defense minigame is ongoing. Attack button enabled."); 
+        } 
     }
-    
 
     public void slash()  // Player slashes the NPC, summons VFX and SFX, and destroys the NPC
     {
@@ -58,6 +55,8 @@ public class AttackHandler : MonoBehaviour
             playerChest.position + Vector3.up * 1.0f,
             Quaternion.identity
         );
+
+        
 
 
         GameObject spawnedSFX = Instantiate(
