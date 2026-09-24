@@ -11,8 +11,9 @@ public class Tower : MonoBehaviour
     [Header("Tower Properties")]
     [Tooltip("Tower's health in float values")]
     public float towerHealth; //500;
+    public float towerMaxHealth;
 
-    [Tooltip("Number of seconds until next enemy spawns")]
+    [Tooltip("Number of seconds until next enemy wave spawns AFTER a wave is defeated")]
     public float enemySpawnRate; // 20.0f;
 
     [Tooltip("Number of enemies to summon per wave")]
@@ -33,16 +34,31 @@ public class Tower : MonoBehaviour
     [Tooltip("Enemy's attack speed (per second).")]
     public float enemyDamageTickRate = 2.0f;
 
+    [Header("Ally (fake enemy) Properties")]
+    [Tooltip("An fake enemy (ally)'s heal amount to the tower when it gets consumed by the tower")]
+    public float allyHeal = 5f; // = 5 for balanced. Three ally heals to compensate for the enemy damage, which is 15.
+    [Tooltip("If an ally is slain, this is how much damage it deals against the tower as punishment")]
+    public float allySlainDmg = 15f;
+
     [Header("Player Properties")]
     [Tooltip("Player's minimum damage against enemies not yet influenced by critical strikes.")]
     public float playerDamage = 26.0f;
-    [Tooltip("Player's attack speed per second")] // NOT YET IMPLEMENTED
-    public float playerAtkSpeed = 1.0f; // in seconds
+
+    // <REQUIRES IMPLEMENTATION>
+
+    [Tooltip("Player's attack speed per second")] 
+    public float playerAtkSpeed = 1.0f; 
+    [Tooltip("Player speed boost increase after killing an enemy (current player speed + this much amount)")]
+    public float speedIncrease = 10f; // placeholder. should be toggleable or added immediately after killing an enemy?
+    [Tooltip("Player speed boost duration in seconds")]
+    public float speedDuration = 1f; 
+    // </REQUIRES IMPLEMENTATION>
 
     //
     [Header("Miscellaneous")]
     public int nextEnemyID = 0;
     public bool isOngoing = true;
+    public int enemiesAlive = 0;
     
     
 
@@ -53,6 +69,7 @@ public class Tower : MonoBehaviour
     [SerializeField] private GameObject enemy;
     [SerializeField] private Enemy_TD enemyScript;
     [SerializeField] private NametagManager nametagScript;
+    [SerializeField] private Results resultScript;
     [SerializeField] private TextMeshProUGUI td_question; // UI     
     public Slider towerHpBar;
     private Button buttonAttack;
@@ -67,9 +84,10 @@ public class Tower : MonoBehaviour
         nametagScript = GetComponent<NametagManager>();
         currentWavesLeft = numberOfWaves;
         
-        towerHpBar = GameObject.Find("TowerHPBar").GetComponent<Slider>();
+        towerHpBar = GameObject.Find("BossHPBar").GetComponent<Slider>();
         towerHpBar.value = towerHealth;
         towerHpBar.maxValue = towerHealth;
+        resultScript = GameObject.Find("Terminal Results").GetComponent<Results>();
 
 
         if (isOngoing)
@@ -77,7 +95,7 @@ public class Tower : MonoBehaviour
             buttonAttack.interactable = true;
             Debug.Log("Tower Defense minigame is ongoing. Attack button enabled.");
 
-            td_question = GameObject.Find("TowerDefenseUI").GetComponent<TextMeshProUGUI>();
+            td_question = GameObject.Find("BossUI").GetComponent<TextMeshProUGUI>();
         }
         
 
@@ -95,6 +113,11 @@ public class Tower : MonoBehaviour
     public void updateHpBar()
     {
         towerHpBar.value = towerHealth;
+
+        if (towerHealth > towerMaxHealth) // Stop the tower from overhealing
+        {
+            towerHealth = towerMaxHealth;
+        }
     }
 
     void spawnEnemy(Transform location) // Spawns an enemy at a location
@@ -112,13 +135,24 @@ public class Tower : MonoBehaviour
             enemyScript.enemyID = nextEnemyID;
             spawnedEnemy.name = "EvilBun_" + nextEnemyID; // IDs each spawned enemy to the enemyScript
             nextEnemyID++;
+            enemiesAlive++;
             //Debug.Log("Spawned Evil Bun ID: " + enemyScript.enemyID);
         }
 
         attachNametag(spawnedEnemy, enemyScript);
-        td_question.text = "Category: \n" + nametagScript.GetWinningSO().question;
+        updateHeader(nametagScript.GetWinningSO().question);
     }
-    
+
+    void updateHeader(string txt)
+    {
+        td_question.text = "Category: \n" + txt;
+    }
+
+    public void enemyDefeated()
+    {
+        enemiesAlive--;
+        Debug.Log("Enemy defeated. Enemies remaining: " + enemiesAlive);
+    }
     
     
     void attachNametag(GameObject enemy, Enemy_TD es)
@@ -203,6 +237,78 @@ public class Tower : MonoBehaviour
         updateHpBar();
     }
 
+    public float takeDamage(float dmg)
+    {
+        float rollDice = UnityEngine.Random.Range(0f, 100f);
+        if (rollDice <= (enemyDamageCritChance))
+        {
+            // TODO: Insert game logic feedback here for when enemy crit damage happens
+            return dmg * enemyDamageCritMultiplier;
+        }
+        else
+        {
+            return dmg;
+        }
+
+        updateHpBar();
+    }
+
+    IEnumerator Loop()
+    {
+        for (int wave = 1; wave <= numberOfWaves; wave++)
+        {
+            if (!isOngoing)
+                yield break;
+            if (towerHealth <= 0)
+            {
+                updateHeader("You Failed!");
+                yield break;
+            }
+
+            Debug.Log("Wave " + wave + " incoming!");
+
+            enemiesAlive = 0;
+
+            // Spawn ALL enemies in this wave at once
+            for (int i = 0; i < enemiesPerWave; i++)
+            {
+                spawnEnemy(spawnChildren[i]);
+
+                Debug.Log(
+                    "Spawned enemy " + (i + 1) +
+                    " of wave " + wave
+                );
+            }
+
+            Debug.Log("Wave " + wave + " started with " + enemiesAlive + " enemies.");
+
+            // WAIT until every enemy has been defeated
+            yield return new WaitUntil(() => enemiesAlive <= 0);
+
+            Debug.Log("Wave " + wave + " finished!");
+
+            // Don't roll another set after the final wave
+            if (wave < numberOfWaves)
+            {
+                nametagScript.rollNewSet();
+                selectedIndexes.Clear();
+
+                updateHeader(nametagScript.GetWinningSO().question);
+
+                Debug.Log("New nametag set loaded!");
+
+                // Optional delay before next wave
+                yield return new WaitForSeconds(enemySpawnRate);
+            }
+        }
+
+        resultScript.displayResults(13, 20); // TEMPORARY. Will add a scoring system later.
+        isOngoing = false;
+
+        Debug.Log("All waves completed!");
+    }
+
+    /*
     IEnumerator Loop() 
     {
         while (isOngoing == true && currentWavesLeft > 0)
@@ -217,12 +323,14 @@ public class Tower : MonoBehaviour
                     Debug.Log("Spawned enemy " + i + " of wave ");
                 }
             }
+            // pause loop until wave is finished
+            nametagScript.rollNewSet(); // roll nametag after wave spawn
             currentWavesLeft--;
             yield return new WaitForSeconds(enemySpawnRate);
         }
-    }
+    }*/
 
-    
+
 
 }
     

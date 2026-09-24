@@ -43,6 +43,7 @@ public class Enemy_TD : NPC
         rb = GetComponent<Rigidbody>();
         towerScript = GameObject.FindWithTag("Tower").GetComponent<Tower>();
         tower = GameObject.FindWithTag("Tower");
+        totalDamageDone = 0;
 
         /*
         slashAction = new UnityAction(slash);
@@ -140,7 +141,7 @@ public class Enemy_TD : NPC
         target = t; // Change target
     }
 
-    public void takeDamage() // Receive damage for this individual NPC. NOT Tower.
+    public void takeDamage() // Void: Receive damage for this individual NPC. NOT Tower.
     {
         health -= towerScript.playerDamage; // One hit before death
         Debug.Log($"{gameObject.name} took damage! {health}-hp remaining.");
@@ -148,6 +149,7 @@ public class Enemy_TD : NPC
         {
             Debug.Log($"{gameObject.name} has been defeated!");
             Destroy(gameObject);
+            towerScript.enemyDefeated();
         }
         //TODO: Knockback effect when taking damage (OPT)
         //TODO: Critical chance shakes the screen and deals more damage  (OPT)
@@ -155,11 +157,20 @@ public class Enemy_TD : NPC
 
         if (!isEvil)
         {
+            towerScript.towerHealth -= towerScript.allySlainDmg;
+            towerScript.updateHpBar();
             Debug.LogWarning("You've hit an ALLY! OUCH!");
         }
+
     }
 
-
+    public void allyTowerTouch() // What further happens to an ally (fake enemy) if it touches the tower
+    {
+        Destroy(gameObject); // individual ally disappears
+        towerScript.enemyDefeated();
+        towerScript.updateHpBar();
+        // TODO: Instantiate VFX for healing
+    }
 
 
 
@@ -167,15 +178,22 @@ public class Enemy_TD : NPC
     {
         while (towerScript != null && towerScript.isOngoing) // Damage handler AGAINST tower
         {
-            float damage = towerScript.takeDamage();
+            if (!isEvil) // Logic if ally touches the tower
+            {
+                towerScript.towerHealth += towerScript.allyHeal; // Heals the tower
+                allyTowerTouch();
+            } else if (isEvil) // Logic if enemy touches the tower
+            {
+                float damage = towerScript.takeDamage();
 
-            //Debug.Log($"Damage! {damage}-hp");
+                //Debug.Log($"Damage! {damage}-hp");
 
-            towerScript.towerHealth -= damage;
-            totalDamageDone += damage;
-            towerScript.updateHpBar();
+                towerScript.towerHealth -= damage;
+                totalDamageDone += damage;
+                towerScript.updateHpBar();
+            }
 
-            yield return new WaitForSeconds(towerScript.enemyDamageTickRate); // Parameter is AKA enemy attack speed.
+            yield return new WaitForSeconds(towerScript.enemyDamageTickRate); // Parameter is AKA enemy attack speed. CRASHES IF REMOVED AT THE END OF WHILE LOOP NIGGA 
         }
 
         tickCoroutine = null;

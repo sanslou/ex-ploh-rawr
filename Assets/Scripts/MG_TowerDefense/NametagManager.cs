@@ -34,6 +34,10 @@ public class NametagManager : MonoBehaviour
         */
     }
 
+    public void rollNewSet()
+    {
+        winningSO = GetRandomNametagSO();
+    }
 
     public NametagsData GetRandomNametagSO() // Pull a random nametag dataset from list
     {

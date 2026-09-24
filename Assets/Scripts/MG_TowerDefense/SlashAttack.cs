@@ -7,10 +7,12 @@ public class SlashAttack : MonoBehaviour
     private bool hit;
     private Enemy_TD enemyScript;
     private GameObject target;
+    private Tower towerScript;
     
     void Start()
     {
         hit = false;
+        towerScript = GameObject.FindWithTag("Tower").GetComponent<Tower>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -23,16 +25,19 @@ public class SlashAttack : MonoBehaviour
             enemyScript = target.GetComponent<Enemy_TD>();
 
             enemyScript.takeDamage(); // Call the TakeDamage method on the Enemy_TD script
-            hit = true;
+            
 
-            if (!enemyScript.isEvil)
+            if (!enemyScript.isEvil && hit)
             {
+                towerScript.towerHealth -= towerScript.allySlainDmg; // the tower takes damage as punishment
+                towerScript.updateHpBar();
                 Debug.LogWarning("You've hit an ALLY! OUCH!");
             }
             else
             {
                 Debug.Log("You've hit an enemy.");
             }
+            hit = true;
         }
     }
 
