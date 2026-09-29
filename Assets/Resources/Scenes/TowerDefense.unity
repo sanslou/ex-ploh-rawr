@@ -154,6 +154,7 @@ Transform:
   - {fileID: 330585546}
   - {fileID: 167420245}
   - {fileID: 309075203}
+  - {fileID: 1727205268}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &9390044
@@ -5977,6 +5978,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1695696667}
   m_CullTransparentMesh: 1
+--- !u!1 &1727205267
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1727205268}
+  m_Layer: 0
+  m_Name: AttackPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1727205268
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727205267}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9390041}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1841629225 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2711896354860048788, guid: 1937a6ae31227144c8f60b7f4319902f, type: 3}
@@ -7515,10 +7547,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3697022480656446897, guid: 07f499e023952af41a323bab0ac1df11, type: 3}
-      propertyPath: m_Name
-      value: BossUI
-      objectReference: {fileID: 0}
     - target: {fileID: 4125160153796998752, guid: 07f499e023952af41a323bab0ac1df11, type: 3}
       propertyPath: m_Name
       value: UI Player
@@ -7527,9 +7555,9 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 330585545}
-    - target: {fileID: 8699709304911793883, guid: 07f499e023952af41a323bab0ac1df11, type: 3}
-      propertyPath: m_Name
-      value: BossHPBar
+    - target: {fileID: 7341972940822958764, guid: 07f499e023952af41a323bab0ac1df11, type: 3}
+      propertyPath: m_Alpha
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7661,49 +7689,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4954572003790630914, guid: 20a65d7d096dda6459ad4f4948badec6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -14.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 4977348852958914434, guid: 20a65d7d096dda6459ad4f4948badec6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 4977348852958914434, guid: 20a65d7d096dda6459ad4f4948badec6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.66
-      objectReference: {fileID: 0}
     - target: {fileID: 5553244078423268715, guid: 20a65d7d096dda6459ad4f4948badec6, type: 3}
-      propertyPath: enemyDamage
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 5553244078423268715, guid: 20a65d7d096dda6459ad4f4948badec6, type: 3}
-      propertyPath: towerHealth
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5553244078423268715, guid: 20a65d7d096dda6459ad4f4948badec6, type: 3}
-      propertyPath: numberOfWaves
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5553244078423268715, guid: 20a65d7d096dda6459ad4f4948badec6, type: 3}
-      propertyPath: enemySpawnRate
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5553244078423268715, guid: 20a65d7d096dda6459ad4f4948badec6, type: 3}
-      propertyPath: towerMaxHealth
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5956460252648812481, guid: 20a65d7d096dda6459ad4f4948badec6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 15.86
-      objectReference: {fileID: 0}
-    - target: {fileID: 6065866045001896586, guid: 20a65d7d096dda6459ad4f4948badec6, type: 3}
-      propertyPath: m_Size.x
-      value: 1.87
-      objectReference: {fileID: 0}
-    - target: {fileID: 6065866045001896586, guid: 20a65d7d096dda6459ad4f4948badec6, type: 3}
-      propertyPath: m_Size.z
-      value: 1.53
+      propertyPath: isOngoing
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6335348411156317947, guid: 20a65d7d096dda6459ad4f4948badec6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7762,13 +7750,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1837182057557372879, guid: 6b82ce5d393b8f74eb414c050005f4de, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837182057557372879, guid: 6b82ce5d393b8f74eb414c050005f4de, type: 3}
+      propertyPath: m_fontSize
+      value: 36
+      objectReference: {fileID: 0}
     - target: {fileID: 5362542273509601723, guid: 6b82ce5d393b8f74eb414c050005f4de, type: 3}
       propertyPath: m_Name
       value: Debug UI
       objectReference: {fileID: 0}
     - target: {fileID: 5362542273509601723, guid: 6b82ce5d393b8f74eb414c050005f4de, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7199477307890675863, guid: 6b82ce5d393b8f74eb414c050005f4de, type: 3}
       propertyPath: m_Pivot.x

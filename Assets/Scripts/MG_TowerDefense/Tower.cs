@@ -8,6 +8,8 @@ using System.Collections.Generic;
 public class Tower : MonoBehaviour
 {
     // This class is responsible for the tower and its properties, as well as enemy spawn properties.
+    public bool isOngoing = true;
+
     [Header("Tower Properties")]
     [Tooltip("Tower's health in float values")]
     public float towerHealth; //500;
@@ -57,7 +59,6 @@ public class Tower : MonoBehaviour
     //
     [Header("Miscellaneous")]
     public int nextEnemyID = 0;
-    public bool isOngoing = true;
     public int enemiesAlive = 0;
     
     
@@ -70,7 +71,10 @@ public class Tower : MonoBehaviour
     [SerializeField] private Enemy_TD enemyScript;
     [SerializeField] private NametagManager nametagScript;
     [SerializeField] private Results resultScript;
-    [SerializeField] private TextMeshProUGUI td_question; // UI     
+    [SerializeField] private TextMeshProUGUI td_question; // UI
+    [SerializeField] private GameObject invisWall;
+    [SerializeField] private TextMeshProUGUI towerUI;
+    [SerializeField] private CanvasGroup towerCG;
     public Slider towerHpBar;
     private Button buttonAttack;
     private List<int> selectedIndexes = new List<int>(); // attachNametag(): Lists all selected indexes to avoid duplicates
@@ -83,25 +87,38 @@ public class Tower : MonoBehaviour
         buttonAttack = GameObject.FindGameObjectWithTag("UI_Attack").GetComponent<Button>();
         nametagScript = GetComponent<NametagManager>();
         currentWavesLeft = numberOfWaves;
-        
-        towerHpBar = GameObject.Find("BossHPBar").GetComponent<Slider>();
-        towerHpBar.value = towerHealth;
-        towerHpBar.maxValue = towerHealth;
+        towerUI = GameObject.Find("BossUI").GetComponent<TextMeshProUGUI>(); 
         resultScript = GameObject.Find("Terminal Results").GetComponent<Results>();
+        invisWall = transform.parent.Find("Invisible").gameObject;
+        towerCG = GameObject.Find("BossUI").GetComponent<CanvasGroup>();
 
-
+        towerCG.alpha = 0;
         if (isOngoing)
         {
+            buttonAttack.gameObject.SetActive(true);
             buttonAttack.interactable = true;
             Debug.Log("Tower Defense minigame is ongoing. Attack button enabled.");
+            invisWall.SetActive(true);
+            towerUI.enabled = true;
 
+            towerHpBar = GameObject.Find("BossHPBar").GetComponent<Slider>();   
             td_question = GameObject.Find("BossUI").GetComponent<TextMeshProUGUI>();
+
+            towerCG.alpha = 1;
+            
+        } else
+        {
+            return;
         }
-        
+
+            towerHpBar.value = towerHealth;
+        towerHpBar.maxValue = towerHealth;
+
+
 
         foreach (Transform child in spawnLocation) // Get all spawn locations
         {
-            spawnChildren = spawnLocation.GetComponentsInChildren<Transform>().Where(t => t != spawnLocation).ToArray(); 
+            spawnChildren = spawnLocation.GetComponentsInChildren<Transform>().Where(t => t != spawnLocation).ToArray();
             // .Where() ensures that the parent object is not included in the array
             //Debug.Log("Spawn location: " + child.name);
         }
@@ -237,7 +254,7 @@ public class Tower : MonoBehaviour
         updateHpBar();
     }
 
-    public float takeDamage(float dmg)
+    public float takeDamage(float dmg) // overload. custom damage
     {
         float rollDice = UnityEngine.Random.Range(0f, 100f);
         if (rollDice <= (enemyDamageCritChance))

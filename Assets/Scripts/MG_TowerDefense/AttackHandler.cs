@@ -9,14 +9,34 @@ public class AttackHandler : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform playerChest;
     [SerializeField] private Camera mainCamera;
+    
     private Tower towerScript;
     private Enemy_TD enemyScript;
     private Button buttonAttack;
+
+    [SerializeField] private float slashOffset;
+    private Vector2 lastMoveDirection = Vector2.down;
+
+    [SerializeField] private Transform attackPivot; 
 
     void Start()
     {
         buttonAttack = GameObject.FindGameObjectWithTag("UI_Attack").GetComponent<Button>();
         towerScript = FindObjectOfType<Tower>();
+        slashOffset = 1.5f;
+    }
+
+    void Update()
+    {
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+
+        Vector2 movement = new Vector2(horizontal, vertical);
+
+        if (movement != Vector2.zero)
+        {
+            lastMoveDirection = movement.normalized;
+        }
     }
 
 
@@ -29,54 +49,80 @@ public class AttackHandler : MonoBehaviour
         } 
     }
 
-    public void slash()  // Player slashes the NPC, summons VFX and SFX, and destroys the NPC
-    {
-        // TODO: Health system for enemies - FIN
-        // TODO: Health system for tower - FIN
-        // TODO: Health system for players.
-        // TODO: Knockback physics effect
-        // TODO: Interact button sometimes does not engage - FIN
-        // TODO: Add a cooldown to attack button.
-        // TODO: Add a SFX hit when player slashes enemy VS. slashing the air.
 
-        //Debug.Log($"Player slashed {gameObject.name} (ID: {enemyID})!");
+    public void slash()
+    {
         GameObject vfx =
             Resources.Load<GameObject>("Prefabs/VFX_DefaultSlash");
 
         GameObject sfx =
             Resources.Load<GameObject>("Prefabs/SFX_Hit");
 
-        playerChest = GameObject.FindWithTag("Player").transform.Find("Player Sprite");
-        mainCamera = Camera.main;
+        Transform player = GameObject.FindWithTag("Player").transform;
 
-        // Spawn VFX and SFX
-        GameObject spawnedVFX = Instantiate(
-            vfx,
-            playerChest.position + Vector3.up * 1.0f,
-            Quaternion.identity
+        playerChest = player.Find("Player Sprite");
+        attackPivot = player.Find("AttackPivot");
+
+        if (attackPivot == null)
+        {
+            Debug.LogError("AttackPivot not found!");
+            return;
+        }
+
+        // SLASH ROTATION
+
+        float angle = 0f;
+
+        if (lastMoveDirection.x > 0 && lastMoveDirection.y > 0)
+            angle = 45f;       // NE
+        else if (lastMoveDirection.x > 0 && lastMoveDirection.y < 0)
+            angle = 135f;      // SE
+        else if (lastMoveDirection.x < 0 && lastMoveDirection.y < 0)
+            angle = 225f;      // SW
+        else if (lastMoveDirection.x < 0 && lastMoveDirection.y > 0)
+            angle = 315f;      // NW
+        else if (lastMoveDirection.x > 0)
+            angle = 90f;       // E
+        else if (lastMoveDirection.x < 0)
+            angle = 270f;      // W
+        else if (lastMoveDirection.y > 0)
+            angle = 0f;        // N
+        else if (lastMoveDirection.y < 0)
+            angle = 180f;      // S
+
+        // SPAWN VFX
+
+        GameObject spawnedVFX = Instantiate(vfx);
+
+        // Make VFX follow AttackPivot
+        spawnedVFX.transform.SetParent(attackPivot, false);
+
+        // Position relative to AttackPivot
+        spawnedVFX.transform.localPosition = new Vector3(
+            lastMoveDirection.x * slashOffset,
+            0f,
+            lastMoveDirection.y * slashOffset
         );
 
-        
+        // Rotate relative to AttackPivot
+        spawnedVFX.transform.localEulerAngles = new Vector3(
+            90f,
+            angle,
+            0f
+        );
 
+        // SPAWN SFX
 
         GameObject spawnedSFX = Instantiate(
             sfx,
-            playerChest.position,
+            attackPivot.position,
             Quaternion.identity
         );
 
-
-        // Make VFX face the camera
-        spawnedVFX.transform.forward =
-            mainCamera.transform.forward;
-
-
-        // Destroy after playing
         Destroy(spawnedVFX, 0.12f);
         Destroy(spawnedSFX, 2f);
-
-
-        // Temporary placeholder
-
     }
+
+
+
 }

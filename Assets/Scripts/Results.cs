@@ -14,26 +14,35 @@ public class Results : MonoBehaviour
     private string[] grade = { "S+", "A", "B", "C", "D", "F" };
 
     [Header("References")]
-    private TextMeshProUGUI scoreText;
-    private TextMeshProUGUI gradeText;
-    private Button btnDone;
-    private Canvas resultsScreen;
+    [SerializeField] private TMP_InputField scoreText;
+    [SerializeField] private TMP_InputField gradeText;
+    [SerializeField] private Button btnDone;
+    [SerializeField] private Canvas resultsScreen;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        scoreText = transform.Find("Result Score").GetComponent<TextMeshProUGUI>(); // transform.find examines the parent (this gameobject)'s children
-        gradeText = transform.Find("Result Grade").GetComponent<TextMeshProUGUI>();
+        scoreText = transform.Find("Result Score").GetComponent<TMP_InputField>();
+        gradeText = transform.Find("Result Grade").GetComponent<TMP_InputField>();
         resultsScreen = GetComponent<Canvas>();
         btnDone = transform.Find("Button Done").GetComponent<Button>();
-        btnDone.onClick.AddListener(closeResults);
+
+        //Debug.Log("scoreText: " + scoreText);
+        //Debug.Log("gradeText: " + gradeText);
+        //Debug.Log("resultsScreen: " + resultsScreen);
+        //Debug.Log("btnDone: " + btnDone);
+
+        if (btnDone != null)
+        {
+            btnDone.onClick.AddListener(closeResults);
+        }
     }
 
     public void displayResults(int sc, int max)
     {
 
         resultsScreen.enabled = true; // turns it visible
-            scoreText.text = $"{sc}/{max}";
+        scoreText.text = sc + "/" + max;
         gradeText.text = determineGrade(sc, max);
     }
 
@@ -48,7 +57,7 @@ public class Results : MonoBehaviour
         {
             return grade[5]; // prevent division by zero
         }
-        float weight = ((float)sc / max) * 100f;
+        float weight = ((float)sc / (float)max) * 100f;
 
         if (weight >= 100f)
         {

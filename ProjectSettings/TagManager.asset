@@ -16,6 +16,7 @@ TagManager:
   - Tower
   - Enemy_TD
   - UI_Attack
+  - Inv_Wall_Parent
   layers:
   - Default
   - TransparentFX
