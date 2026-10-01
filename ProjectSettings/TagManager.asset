@@ -17,6 +17,8 @@ TagManager:
   - Enemy_TD
   - UI_Attack
   - Inv_Wall_Parent
+  - Inv_Wall
+  - UI_Pause
   layers:
   - Default
   - TransparentFX
