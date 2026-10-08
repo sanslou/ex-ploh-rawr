@@ -104,7 +104,16 @@ public class Enemy_TD : NPC
             5.0f,
             NavMesh.AllAreas))
         {
-            agent.Warp(hit.position); // Suppose the enemy has already spawned, snap it to the nearest point on the NavMesh so it can move
+            try 
+            {
+                agent.Warp(hit.position); // Suppose the enemy has already spawned, snap it to the nearest point on the NavMesh so it can move
+            } catch (MissingComponentException e)
+            {
+                Debug.LogError(
+                    $"{gameObject.name} is missing a NavMeshAgent component! " +
+                    "(Did you add a NavMeshAgent to the prefab?)"
+                );
+            }
         }
         else
         {

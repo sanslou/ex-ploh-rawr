@@ -124,34 +124,49 @@ public class PlayerInteract : MonoBehaviour
     public bool inBattleground;
 
 
-    private void OnTriggerEnter(Collider other)
-    {
-        //Debug.Log("OnTriggerEnter: " + other.gameObject.name);
-        if (hasTriggered) return;
-        hasTriggered = true;
-
-        if (other.gameObject.CompareTag("NPC") && target == null)
+        private void OnTriggerEnter(Collider other)
         {
+            //Debug.Log("OnTriggerEnter: " + other.gameObject.name);
+            if (hasTriggered) return;
+            hasTriggered = true;
+
+            if (other.gameObject.CompareTag("NPC") && target == null)
+            {
             target = other.gameObject;
-            Debug.Log(target.name);
+            Debug.Log("NPC detected: " + target.name);
+
             NPCscript = target.GetComponent<NPC>();
+
+            if (NPCscript == null)
+            {
+                Debug.LogError("NPC component not found on: " + target.name);
+                return;
+            }
+
+            if (buttonInteract == null)
+            {
+                Debug.LogError("buttonInteract is not assigned!");
+                return;
+            }
+
+            buttonInteract.onClick.RemoveAllListeners();
             buttonInteract.onClick.AddListener(NPCscript.Interact);
             buttonInteract.interactable = true;
         }
 
         if (other.gameObject.CompareTag("Battleground") && target == null)
-        {
-            // <RandomEncounters Logic>
-            target = other.gameObject;
-            inBattleground = true;
-            Debug.Log("Player is in battleground!");
-            // </RandomEncounters Logic>
+            {
+                // <RandomEncounters Logic>
+                target = other.gameObject;
+                inBattleground = true;
+                Debug.Log("Player is in battleground!");
+                // </RandomEncounters Logic>
 
-            // <Quest Logic>
-            QuestEvents.goToEvent.Invoke(other.gameObject.name);
-            //</Quest Logic>
+                // <Quest Logic>
+                QuestEvents.goToEvent.Invoke(other.gameObject.name);
+                //</Quest Logic>
+            }
         }
-    }
 
     private void OnTriggerExit(Collider other)
     {
