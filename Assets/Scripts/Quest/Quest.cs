@@ -1,108 +1,109 @@
 using UnityEngine;
 
-public abstract class QuestBase : MonoBehaviour
+public class Quest
 {
-    public abstract void StartQuest();
-    public abstract void addListeners();
-    public abstract void CompleteQuest();
-}
-
-public class Quest : MonoBehaviour
-{
-    public QuestData qd;
-    private int overallQuestProgress = 0;
-
-    bool debugMode = true;
+    public QuestData qd { get; private set; }
 
     public Quest(QuestData questData)
     {
-        if (overallQuestProgress == 0)
+        if (questData == null)
         {
-            qd = Resources.Load<QuestData>("Quests/Quest_Test");
-            qd.isActive = true;
-
-            Debug.Log("Quest data loaded: " + qd.questName);
-            Debug.Log("isActive: " + qd.isActive);
+            Debug.LogError("QuestData is not assigned.");
+            return;
         }
 
-        if (qd == null)
-        {
-            Debug.LogError("QuestData is not assigned in the Quest script.");
-        }
-        else
-        {
-            Debug.Log("Quest initialized: " + qd.questName);
-        }
+        qd = questData;
+    }
 
-        if (debugMode)
-        {
-            qd.isActive = true;
-            qd.isCompleted = false;
-            qd.currentObjIndex = 0;
-        }
+    public void StartQuest()
+    {
+        if (qd == null) return;
+
+        qd.isActive = true;
+        qd.isCompleted = false;
+        qd.currentObjIndex = 0;
+
+        Debug.Log("Quest started: " + qd.questName);
     }
 
     public void TalkTo(string npcName)
     {
+        if (!CanProgress(ObjectiveType.TalkTo)) return;
 
-        if (!qd.isCompleted && qd.isActive && qd.objectiveTypes[qd.currentObjIndex] == ObjectiveType.TalkTo) // If quest is active, meets current index and its type
+        if (qd.objectives[qd.currentObjIndex] == npcName)
         {
-            string currentObjective = qd.objectives[qd.currentObjIndex];
-            if (currentObjective == npcName) // Check if NPC name matches the current objective
-            {
-                Debug.Log("TalkTo objective completed!");
-                qd.currentObjIndex++;
-                if (qd.currentObjIndex >= qd.objectives.Length)
-                {
-                    completeQuest();
-                }
-            }
+            Debug.Log("TalkTo objective completed!");
+            AdvanceObjective();
         }
-
-        Debug.Log("Current objective index: " + qd.currentObjIndex);
     }
 
     public void GoTo(string tripwireName)
     {
-        if (!qd.isCompleted && qd.isActive && qd.objectiveTypes[qd.currentObjIndex] == ObjectiveType.GoTo)
+        if (!CanProgress(ObjectiveType.GoTo)) return;
+
+        if (qd.objectives[qd.currentObjIndex] == tripwireName)
         {
-            string currentObjective = qd.objectives[qd.currentObjIndex];
-            if (currentObjective == tripwireName)
-            {
-                Debug.Log("GoTo objective completed!");
-                qd.currentObjIndex++;
-                if (qd.currentObjIndex >= qd.objectives.Length)
-                {
-                    completeQuest();
-                }
-            }
+            Debug.Log("GoTo objective completed!");
+            AdvanceObjective();
         }
-        Debug.Log("Current objective index: " + qd.currentObjIndex);
     }
 
-    public void completeQuest()
+    private bool CanProgress(ObjectiveType type)    
+    {
+        return qd != null
+            && qd.isActive
+            && !qd.isCompleted
+            && qd.currentObjIndex >= 0
+            && qd.currentObjIndex < qd.objectives.Length
+            && qd.currentObjIndex < qd.objectiveTypes.Length
+            && qd.objectiveTypes[qd.currentObjIndex] == type;
+    }
+
+    private void AdvanceObjective()
+    {
+        qd.currentObjIndex++;
+
+        Debug.Log(
+            $"[Quest] Advanced to index: {qd.currentObjIndex} " +
+            $"| Total objectives: {qd.objectives.Length}"
+        );
+
+        if (qd.currentObjIndex >= qd.objectives.Length)
+        {
+            CompleteQuest();
+        }
+        else
+        {
+            Debug.Log(
+                $"[Quest] Next objective: " +
+                $"{qd.objectiveDescriptions[qd.currentObjIndex]}"
+            );
+        }
+    }
+
+    public void CompleteQuest()
     {
         qd.isCompleted = true;
         qd.isActive = false;
-        Debug.Log("Quest completed!: " + qd.questName);
-        // TODO: Need to find a better way to add and remove listeners without affecting other quests
+
+        Debug.Log("Quest completed: " + qd.questName);
     }
 
     public string getQuestName()
     {
-        return qd.questName;
+        return qd != null ? qd.questName : "";
     }
 
     public string getQuestDescription()
     {
-        return qd.questDescription;
+        return qd != null ? qd.questDescription : "";
     }
 
     public string getObjective(int index)
     {
-        if (index < 0 || index >= qd.objectives.Length)
+        if (qd == null || index < 0 ||
+            index >= qd.objectives.Length)
         {
-            Debug.LogError("Objective index out of range.");
             return null;
         }
 
@@ -111,14 +112,12 @@ public class Quest : MonoBehaviour
 
     public ObjectiveType getCurrentObjType(int index)
     {
-        if (index < 0 || index >= qd.objectiveTypes.Length)
+        if (qd == null || index < 0 ||
+            index >= qd.objectiveTypes.Length)
         {
-            Debug.LogError("Objective type index out of range.");
             return ObjectiveType.Kill;
         }
 
         return qd.objectiveTypes[index];
     }
-
-    
 }

@@ -12,6 +12,10 @@ public class NPC_Interaction : NPC
     
     string npcName = "Bun"; // Helps Quest system identify which NPC was interacted with
 
+    [Header("Tripwire")]
+    [SerializeField] private string tripwireName = "FirstArea"; // yes. the tripwire is also attached here.
+    bool isActive = false;
+
     new void Start(){}
  
     new void Update()
@@ -29,4 +33,18 @@ public class NPC_Interaction : NPC
         index++;
         QuestEvents.talkToEvent.Invoke(npcName); // Invoke the talkToEvent with the NPC's name
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Player") || isActive)
+            return;
+
+        
+
+        Debug.Log("Reached tripwire: " + tripwireName);
+        QuestEvents.goToEvent.Invoke(tripwireName);
+
+        isActive = true; // prevents from firing more than once
+    }
+
 }

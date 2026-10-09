@@ -6,30 +6,35 @@ public class Slideshow : MonoBehaviour
 {
     [Header("Slideshow UI")]
     [SerializeField] private GameObject ssObject;
+    private Canvas slideshowCanvas;
 
     private TextMeshProUGUI headerText;
     private TextMeshProUGUI bodyText;
     private TextMeshProUGUI indexText;
+    private TextMeshProUGUI buttonNextText;
 
     private Button buttonNext;
     private Button buttonPrev;
+    private RawImage imageDisplay;
 
-    private RawImage imageDisplay; // FORMAT: 800 x 675. Can upscale.  
-
-    [Header("Slideshow contents")]
+    [Header("Slideshow Contents")]
     [SerializeField] private string[] headers;
     [SerializeField] private string[] bodies;
     [SerializeField] private Texture[] images;
 
-    int currentIndex = 0;
+    [Header("Tutorial Manager")]
+    [SerializeField] private TutorialManager tutorialManager;
 
+    private int currentIndex = 0; // tracks the current slide index
 
+    public int CurrentIndex => currentIndex; // read-only. 
 
-    void Start()
+    private void Start()
     {
         if (ssObject == null)
         {
-            ssObject = GameObject.Find("SlideshowUI");
+            Debug.LogError("SlideshowUI is not assigned!");
+            return;
         }
 
         headerText = ssObject.transform.Find("Header").GetComponent<TextMeshProUGUI>();
@@ -38,12 +43,100 @@ public class Slideshow : MonoBehaviour
         buttonNext = ssObject.transform.Find("Button Next").GetComponent<Button>();
         buttonPrev = ssObject.transform.Find("Button Previous").GetComponent<Button>();
         imageDisplay = ssObject.transform.Find("Image Display").GetComponent<RawImage>();
+        buttonNextText = buttonNext.transform.Find("Text").GetComponent<TextMeshProUGUI>();
+        slideshowCanvas = ssObject.GetComponent<Canvas>();
 
-        if (currentIndex <= 0 || currentIndex >= headers.Length)
+        buttonNext.onClick.AddListener(NextSlide);
+        buttonPrev.onClick.AddListener(PreviousSlide);
+
+        currentIndex = 0;
+
+        if (headers == null || headers.Length == 0)
         {
-            currentIndex = 0;
+            Debug.LogError("No slideshow headers assigned!");
+            buttonNext.interactable = false;
             buttonPrev.interactable = false;
+            return;
         }
+
+        DisplaySlide();
+    }
+
+    private void DisplaySlide() // If necessary, overload this function and add parameter of currentindex to allow for direct slide access by index.
+    {
+        headerText.text = headers[currentIndex];
+
+        bodyText.text = currentIndex < bodies.Length
+            ? bodies[currentIndex]
+            : "";
+
+        imageDisplay.texture = currentIndex < images.Length
+            ? images[currentIndex]
+            : null;
+
+        indexText.text = $"{currentIndex + 1} / {headers.Length}";
+
+        bool isFirstPage = currentIndex == 0;
+        bool isLastPage = currentIndex == headers.Length - 1;
+
+        buttonPrev.interactable = !isFirstPage;
+
+        // Finish remains interactable on the last page.
+        buttonNext.interactable = true;
+        buttonNextText.text = isLastPage ? "Finish" : "Next";
+    }
+
+    public void NextSlide()
+    {
+        if (currentIndex < headers.Length - 1)
+        {
+            currentIndex++;
+            DisplaySlide();
+        }
+        else
+        {
+            tutorialManager.FinishTutorial();
+        }
+    }
+
+    public void PreviousSlide()
+    {
+        if (currentIndex > 0)
+        {
+            currentIndex--;
+            DisplaySlide();
+        }
+    }
+
+    public void GoToSlide(int index)
+    {
+        if (index >= 0 && index < headers.Length)
+        {
+            currentIndex = index;
+            DisplaySlide();
+        }
+    }
+
+    public void ShowSlideshow()
+    {
+        ssObject.SetActive(true);
+        slideshowCanvas.enabled = true;
+    }
+
+    public void HideSlideshow()
+    {
+        ssObject.SetActive(false);
+        slideshowCanvas.enabled = false;
+        
+    }
+
+    public void SetSlideshowContents(string[] newHeaders, string[] newBodies, Texture[] newImages) // allows dynamic update of slideshow contents.
+    {
+        headers = newHeaders;
+        bodies = newBodies;
+        images = newImages;
+        currentIndex = 0; // Reset to the first slide
+        DisplaySlide();
     }
 
 }

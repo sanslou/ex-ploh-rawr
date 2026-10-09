@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e6aaa0ad76d05046b5365e70967a751, type: 3}
   m_Name: Tutorial
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
-  isActive: 1
-  isCompleted: 0
+  isActive: 0
+  isCompleted: 1
   questName: Tutorial
   questDescription: Let us show you the ropes!
   objectives:
+  - FirstArea
   - Bun
   objectiveDescriptions:
-  - Your first task is to talk to an NPC
-  currentObjIndex: 0
-  objectiveTypes: 02000000
+  - Follow the arrow
+  - Interact with the NPC to start talking
+  currentObjIndex: 2
+  objectiveTypes: 0100000002000000
