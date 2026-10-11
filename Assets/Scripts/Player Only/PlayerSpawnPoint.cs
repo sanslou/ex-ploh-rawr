@@ -16,11 +16,10 @@ public class PlayerSpawnPoint : MonoBehaviour
         player.transform.position = transform.position;
         player.transform.rotation = transform.rotation;
 
-        Debug.Log("Player spawned at PlayerSpawnPoint.");
         TpPlayerToSpawn();
     }
 
-    void TpPlayerToSpawn()
+    public void TpPlayerToSpawn()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 

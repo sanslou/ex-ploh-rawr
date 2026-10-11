@@ -6,6 +6,8 @@ public class TutorialManager : MonoBehaviour
     [Header("Tutorial UI")]
     [SerializeField] private GameObject slideshowUI;
     [SerializeField] private GameObject questUI;
+    [SerializeField] private GameObject playerSpawn;
+    private PlayerSpawnPoint plrSpawnScript;
 
     [Header("First Quest")]
     [SerializeField] private UnityEvent onStartFirstQuest;
@@ -20,7 +22,8 @@ public class TutorialManager : MonoBehaviour
         // Automatically find Canvas components.
         slideshowCanvas = slideshowUI.GetComponent<Canvas>();
         questCanvas = questUI.GetComponent<Canvas>();
-
+        plrSpawnScript = playerSpawn.GetComponent<PlayerSpawnPoint>();
+        
         if (slideshowCanvas == null || questCanvas == null)
         {
             Debug.LogError(
@@ -31,6 +34,7 @@ public class TutorialManager : MonoBehaviour
 
         slideshowCanvas.enabled = true; // Show slideshow first.
         questCanvas.enabled = false;  // Hide quest UI until the tutorial finishes.
+        plrSpawnScript.TpPlayerToSpawn(); // Teleport player to spawn point at the start of the tutorial.
     }
 
     public void FinishTutorial()

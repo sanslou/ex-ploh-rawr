@@ -4,6 +4,9 @@ using TMPro;
 
 public class Slideshow : MonoBehaviour
 {
+    [SerializeField] private bool startSlideshowOnStart = true;
+    [SerializeField] private bool pauseGameDuringSlideshow = true;
+
     [Header("Slideshow UI")]
     [SerializeField] private GameObject ssObject;
     private Canvas slideshowCanvas;
@@ -20,6 +23,7 @@ public class Slideshow : MonoBehaviour
     [Header("Slideshow Contents")]
     [SerializeField] private string[] headers;
     [SerializeField] private string[] bodies;
+    [Header("Slideshow Images (800x675 recommended)")]
     [SerializeField] private Texture[] images;
 
     [Header("Tutorial Manager")]
@@ -60,6 +64,18 @@ public class Slideshow : MonoBehaviour
         }
 
         DisplaySlide();
+        if (startSlideshowOnStart)
+        {
+            ShowSlideshow();
+        }
+        else
+        {
+            HideSlideshow();
+        }
+        if (pauseGameDuringSlideshow)
+        {
+            Time.timeScale = 0f; // Pause the game
+        }
     }
 
     private void DisplaySlide() // If necessary, overload this function and add parameter of currentindex to allow for direct slide access by index.
@@ -95,7 +111,8 @@ public class Slideshow : MonoBehaviour
         }
         else
         {
-            tutorialManager.FinishTutorial();
+            HideSlideshow();
+            Time.timeScale = 1f; // Resume the game
         }
     }
 
