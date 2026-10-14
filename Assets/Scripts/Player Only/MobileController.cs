@@ -14,7 +14,7 @@ public class MobileController : MonoBehaviour, IDragHandler, IPointerDownHandler
 
     public CharacterController characterController;
 
-
+    public Vector2 lastMoveDirection = Vector2.down; // added: remembers last joystick direction.
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,6 +22,7 @@ public class MobileController : MonoBehaviour, IDragHandler, IPointerDownHandler
         joystickFG = transform.GetChild(0).GetComponent<Image>();
 
     }
+
     public void OnPointerDown(PointerEventData eventData)
     {
         //inputVector = Vector2.zero;
@@ -46,6 +47,8 @@ public class MobileController : MonoBehaviour, IDragHandler, IPointerDownHandler
             inputVector = (inputVector.magnitude > 1.0f) ? (inputVector.normalized) : (inputVector);
 
             joystickFG.rectTransform.anchoredPosition = new Vector2(inputVector.x * (joystickBG.rectTransform.sizeDelta.x / 2), inputVector.y * (joystickBG.rectTransform.sizeDelta.y / 2));
+            
+            if (inputVector.sqrMagnitude > 0.01f) lastMoveDirection = inputVector.normalized; // added this logic: Remembers the last joystick direction.
         }
     }
 
@@ -60,10 +63,9 @@ public class MobileController : MonoBehaviour, IDragHandler, IPointerDownHandler
     }
 
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
+
+
+
 
 }

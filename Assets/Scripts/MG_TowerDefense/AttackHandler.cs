@@ -9,15 +9,17 @@ public class AttackHandler : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform playerChest;
     [SerializeField] private Camera mainCamera;
-    
+    [SerializeField] private MobileController mobileController;
+
     private Tower towerScript;
     private Enemy_TD enemyScript;
     private Button buttonAttack;
 
     [SerializeField] private float slashOffset;
-    private Vector2 lastMoveDirection = Vector2.down;
+    private Vector3 lastMoveDirection = Vector3.forward;
 
-    [SerializeField] private Transform attackPivot; 
+    [SerializeField] private Transform attackPivot;
+    
 
     void Start()
     {
@@ -26,17 +28,21 @@ public class AttackHandler : MonoBehaviour
         slashOffset = 1.5f;
     }
 
-    void Update()
+    
+
+    private void Update()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
+        if (mobileController == null)
+            return;
 
-        Vector2 movement = new Vector2(horizontal, vertical);
+        Vector3 input = new Vector3(
+            mobileController.Horizontal(),
+            0f,
+            mobileController.Vertical()
+        );
 
-        if (movement != Vector2.zero)
-        {
-            lastMoveDirection = movement.normalized;
-        }
+        if (input.sqrMagnitude > 0.01f)
+            lastMoveDirection = input.normalized;
     }
 
 

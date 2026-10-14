@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 public class Results : MonoBehaviour
 {
-
-    // For Terminal Results. TBD.
+    // For terminal results.
     [Header("Results")]
     private int score;
     [Tooltip("Total score out of this value.")]
@@ -18,14 +17,16 @@ public class Results : MonoBehaviour
     [SerializeField] private TMP_InputField gradeText;
     [SerializeField] private Button btnDone;
     [SerializeField] private Canvas resultsScreen;
+    private Image bg;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake()
     {
         scoreText = transform.Find("Result Score").GetComponent<TMP_InputField>();
         gradeText = transform.Find("Result Grade").GetComponent<TMP_InputField>();
         resultsScreen = GetComponent<Canvas>();
         btnDone = transform.Find("Button Done").GetComponent<Button>();
+        bg = resultsScreen.transform.Find("BG").GetComponent<Image>();
 
         //Debug.Log("scoreText: " + scoreText);
         //Debug.Log("gradeText: " + gradeText);
@@ -38,12 +39,19 @@ public class Results : MonoBehaviour
         }
     }
 
-    public void displayResults(int sc, int max)
+    public void displayResults(int sc, int max) // Use 0/0 for death screen.
     {
 
         resultsScreen.enabled = true; // turns it visible
         scoreText.text = sc + "/" + max;
         gradeText.text = determineGrade(sc, max);
+
+        if (sc == 0 && max == 0)
+        {
+            scoreText.text = "slain!";
+            gradeText.text = "F";
+        }
+
     }
 
     public void closeResults()
@@ -62,10 +70,12 @@ public class Results : MonoBehaviour
         if (weight >= 100f)
         {
             return grade[0]; // S
+            bg.color = Color.yellow;
         }
         else if (weight >= 90f)
         {
             return grade[1]; // A
+            bg.color = Color.green;
         }
         else if (weight >= 80f)
         {
@@ -82,6 +92,7 @@ public class Results : MonoBehaviour
         else
         {
             return grade[5]; // F
+            bg.color = Color.red; // Change the background color to red if F grade
         }
 
     }

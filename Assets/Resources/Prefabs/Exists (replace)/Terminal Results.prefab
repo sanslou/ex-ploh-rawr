@@ -220,9 +220,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2269092088922281863}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -874, y: 363}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 237, y: -177}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6158848811490765607
@@ -357,9 +357,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2269092088922281863}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -874, y: 75}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 249, y: 75}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7598128491617557639
@@ -496,9 +496,9 @@ RectTransform:
   - {fileID: 6562213298044834619}
   m_Father: {fileID: 2269092088922281863}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -624, y: -119}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 486, y: -82}
   m_SizeDelta: {x: 699, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3649296288975648807
@@ -578,7 +578,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 4069319527368409766}
   m_TextViewport: {fileID: 6562213298044834619}
   m_TextComponent: {fileID: 1858058618618094868}
@@ -1136,6 +1136,7 @@ GameObject:
   - component: {fileID: 6684887506490637238}
   - component: {fileID: 1667057816310143372}
   - component: {fileID: 1614579170041767363}
+  - component: {fileID: 5348614245698977440}
   m_Layer: 5
   m_Name: Terminal Results
   m_TagString: Canvas_Terminal
@@ -1175,7 +1176,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4210468967258561807}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 0}
@@ -1231,6 +1232,22 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5348614245698977440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4210468967258561807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b7743519ab37e14d8c1f7fa6fa644eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Results
+  scoreText: {fileID: 0}
+  gradeText: {fileID: 0}
+  btnDone: {fileID: 0}
+  resultsScreen: {fileID: 0}
 --- !u!1 &6156231565419180730
 GameObject:
   m_ObjectHideFlags: 0
@@ -1265,9 +1282,9 @@ RectTransform:
   - {fileID: 7985620884459087191}
   m_Father: {fileID: 2269092088922281863}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 510, y: -400}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -468, y: 140}
   m_SizeDelta: {x: 800, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8346818345959106925
@@ -1386,9 +1403,9 @@ RectTransform:
   - {fileID: 4537901830578706778}
   m_Father: {fileID: 2269092088922281863}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 510, y: 106}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -468, y: 106}
   m_SizeDelta: {x: 800, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2481631722485686544
@@ -1468,7 +1485,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2455315801854181673}
   m_TextViewport: {fileID: 4537901830578706778}
   m_TextComponent: {fileID: 1682187499899806076}

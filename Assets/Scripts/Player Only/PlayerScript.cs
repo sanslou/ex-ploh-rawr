@@ -82,10 +82,10 @@ public class PlayerInteract : MonoBehaviour
 
         //GameObject.FindGameObjectWithTag("Canvas_Terminal").GetComponent<Canvas>().enabled = false;
         //GameObject.Find("Terminal Multiple").GetComponent<Canvas>().enabled = false;
-        GameObject.Find("Terminal Identify").GetComponent<Canvas>().enabled = false;
-        GameObject.Find("Terminal Trivia").GetComponent<Canvas>().enabled = false;
-        GameObject.Find("Terminal Ready").GetComponent<Canvas>().enabled = false;
-        GameObject.Find("Terminal Results").GetComponent<Canvas>().enabled = false;
+        //GameObject.Find("Terminal Identify").GetComponent<Canvas>().enabled = false;
+        //GameObject.Find("Terminal Trivia").GetComponent<Canvas>().enabled = false;
+        //GameObject.Find("Terminal Ready").GetComponent<Canvas>().enabled = false;
+        //GameObject.Find("Terminal Results").GetComponent<Canvas>().enabled = false;
 
         // ...
         GameObject.FindGameObjectWithTag("Canvas_Player").GetComponent<Canvas>().enabled = true;
