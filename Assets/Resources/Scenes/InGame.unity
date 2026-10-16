@@ -2632,6 +2632,7 @@ MonoBehaviour:
   isEntity: 1
   npcSprite: {fileID: 482356814}
   animator: {fileID: 0}
+  tripwireName: FirstArea
 --- !u!136 &500552408
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7160,7 +7161,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1861380382}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 330585545}

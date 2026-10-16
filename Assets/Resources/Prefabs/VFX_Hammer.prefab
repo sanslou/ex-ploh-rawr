@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7351566608563475605}
   - component: {fileID: 7540436277810576022}
   - component: {fileID: 8645392174016324149}
-  - component: {fileID: 4426486738719047960}
   m_Layer: 0
   m_Name: Hitbox
   m_TagString: Untagged
@@ -67,21 +66,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a68c3848baf0af64882644b63a704b54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SledgehammerAttack
---- !u!114 &4426486738719047960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2943867646177152322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e41a4ef617067f44b7cb03d97e7b1ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BillboardParallel
-  lockElementRotation: 1
-  tiltToCamera: 1
-  flipped: 0
 --- !u!1 &6879279124773691639
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,6 +20,7 @@ TagManager:
   - UI_Pause
   - Inv_Wall
   - MG_Wall
+  - MG_CodeLine
   layers:
   - Default
   - TransparentFX
